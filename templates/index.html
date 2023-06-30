@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DynamoDB CRUD APP</title> 
+</head>
+
+<body>
+    
+
+<h1>Please submit the below form</h1>
+
+<h2>Add a new movie</h2>
+<form action="/movie" method="post">
+    <input type="number" name="id" placeholder="Id">
+    <input type="text" name="title" placeholder="Title">
+    <input type="text" name="director" placeholder="Director">
+
+    <input type="submit" value="Submit">
+</form>
+
+<br>
+<br>
+<br>
+<h2>Update an existing movie</h2>
+<form id="myForm">
+    <input type="number" id="id" name="id" placeholder="Id">
+    <input type="text" id="title" name="title" placeholder="Title">
+    <input type="text" id="director" name="director" placeholder="Director">
+    <button type="submit">Update</button>
+</form>
+
+<br>
+<br>
+<br>
+<h2>Delete a movie by ID</h2>
+<form id="myForm2">
+    <input type="number" id="id2" name="id" placeholder="Id">
+    <button type="submit">Delete</button>
+</form>
+    
+    
+
+<script>
+
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+        const id = document.getElementById('id').value;
+        const title = document.getElementById('title').value;
+        const director = document.getElementById('director').value;
+
+        // Get form data
+        const formData = {
+            title: title,
+            director: director
+        };
+
+        // Send PUT request using fetch
+        fetch('/movie/'+ id, {
+            method: 'PUT',
+            body: JSON.stringify(formData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(function(response) {
+          console.log(formData);
+            console.log('PUT request successful');
+            alert('PUT request successful');
+        })
+        .catch(function(error) {
+            console.log('Error:', error);
+            alert('Error');
+        });
+        
+    });
+    
+    document.getElementById('myForm2').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+        const id = document.getElementById('id2').value;
+        
+        // Send DELETE request using fetch
+        fetch('/movie/'+ id, {
+            method: 'DELETE'
+        })
+        .then(function(response) {
+            console.log(id);
+            console.log('DELETE request successful');
+            alert('DELETE request successful');
+        })
+        .catch(function(error) {
+            console.log('Error:', error);
+            alert('Error');
+        });
+        
+    });
+</script>
+</body>
+</html>
